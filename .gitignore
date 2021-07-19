@@ -1,4 +1,5 @@
 dist
 .cache
 !.gitignore
+node_modules
 *.lock
