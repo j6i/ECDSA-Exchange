@@ -5,15 +5,12 @@ const port = 3042;
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 const SHA256 = require('crypto-js/sha256');
-// localhost can have cross origin errors
-// depending on the browser you use!
 app.use(cors());
 app.use(express.json());
 
 
 function genKeys(){
   const key = ec.genKeyPair();
-// encode the entire public key as a hexadecimal string
   const pKey = key.getPublic().encode('hex');
   return {publicKey: pKey.toString(16), publicX: key.getPublic().x.toString(16), publicY: key.getPublic().y.toString(16), privateKey: key.getPrivate().toString(16)};
 }
@@ -32,7 +29,6 @@ console.log("Private Keys \n1. " + acc1.privateKey + "\n2. " + acc2.privateKey +
 
 function signTx(privKey){
   const key = ec.keyFromPrivate(privKey);
-  // TODO: change this message to whatever you would like to sign
   const message = "I autherize this transaction";
   const msgHash = SHA256(message);
   const signature = key.sign(msgHash.toString());
